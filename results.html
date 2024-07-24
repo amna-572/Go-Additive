@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Results - Go Additive</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- src/theme/head.hbs -->
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="dashboard.html"><strong aria-hidden="true">1.</strong> Dashboard</a></li><li class="chapter-item expanded "><a href="project.html"><strong aria-hidden="true">2.</strong> Project</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="problem_definition.html"><strong aria-hidden="true">2.1.</strong> Problem Definition</a></li><li class="chapter-item expanded "><a href="domains.html"><strong aria-hidden="true">2.2.</strong> Domains</a></li><li class="chapter-item expanded "><a href="boundary_conditions.html"><strong aria-hidden="true">2.3.</strong> Boundary Conditions</a></li><li class="chapter-item expanded "><a href="optimization_objective.html"><strong aria-hidden="true">2.4.</strong> Optimization Objective</a></li><li class="chapter-item expanded "><a href="optimization_parameters.html"><strong aria-hidden="true">2.5.</strong> Optimization Parameters</a></li><li class="chapter-item expanded "><a href="tpms.html"><strong aria-hidden="true">2.6.</strong> TPMS</a></li><li class="chapter-item expanded "><a href="run_optimization.html"><strong aria-hidden="true">2.7.</strong> Run the Optimization</a></li><li class="chapter-item expanded "><a href="results.html" class="active"><strong aria-hidden="true">2.8.</strong> Results</a></li><li class="chapter-item expanded "><a href="send_to_manufacturing.html"><strong aria-hidden="true">2.9.</strong> Send to Manufacturing</a></li><li class="chapter-item expanded "><a href="final_results.html"><strong aria-hidden="true">2.10.</strong> Final Results</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Go Additive</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="results"><a class="header" href="#results">Results</a></h1>
+<img src="images/results.png" alt="Results Navigation" width="350" height="50" />
+<p>This section provides an overview of how to view and interpret the results of your 3D modeling projects on our platform. Once the optimization process is complete, you can access detailed results through the interface.</p>
+<img src="images/result_page.png" alt="Results" width="300" height="150" />
+<h2 id="viewing-results"><a class="header" href="#viewing-results">Viewing Results</a></h2>
+<p>To view the results of your project, follow these steps:</p>
+<p><strong>Show Results</strong>: Click the "Show Results" button on the interface. This will display various charts and graphs that represent the outcome of your optimization process.</p>
+<p>The results are displayed in the form of charts, which provide a visual representation of key metrics. The main charts include:</p>
+<img src="images/charts.png" alt="Charts Results" width="600" height="300" />
+<ul>
+<li>
+<p><strong>Compliance Chart</strong>: This chart shows the compliance of the model in 1/Pa (inverse Pascals). Compliance is a measure of the flexibility of the structure. Lower compliance values indicate a stiffer structure.</p>
+</li>
+<li>
+<p><strong>Temperature Chart</strong>: This chart displays the temperature distribution across the surface of the model. It shows the minimum, mean, and maximum temperatures in Kelvin (K).</p>
+</li>
+<li>
+<p><strong>Weight Chart</strong>: This chart presents the weight of the model in kilograms (Kg). It helps in understanding the mass distribution and optimization of the structure.</p>
+</li>
+</ul>
+<h2 id="downloading-results"><a class="header" href="#downloading-results">Downloading Results</a></h2>
+<p>For further analysis or record-keeping, you can download the results of your project. Follow these steps:</p>
+<p><strong>Download Results</strong>: Click the "Download Results" button on the interface. This will initiate the download of a file containing all the detailed results of your project.</p>
+<pre><code>The downloaded file includes:
+
+- **Charts Data**: Detailed data points used to generate the compliance, temperature, and weight charts.
+
+- **Optimization Summary**: A summary of the optimization process, including the initial parameters, boundary conditions, and the final optimized values.
+
+- **Configuration Settings**: The settings and configurations used for the optimization, which can be useful for reproducing or modifying the project in the future.
+</code></pre>
+<h2 id="interpreting-the-charts"><a class="header" href="#interpreting-the-charts">Interpreting the Charts</a></h2>
+<p>Understanding the charts is crucial for evaluating the performance and effectiveness of your optimized model. Here are some key points to consider:</p>
+<ul>
+<li><strong>Compliance Chart</strong>: Analyze the trend of compliance values. A decreasing trend indicates an increase in the stiffness of the model, which is desirable for structural applications.</li>
+</ul>
+<img src="images/compliance_chart.png" alt="Compliance Chart" width="300" height="200" />
+<ul>
+<li><strong>Temperature Chart</strong>: Evaluate the temperature distribution to ensure that the model meets the thermal compliance requirements. Look for uniform temperature distribution or specific patterns as per the project's needs.</li>
+</ul>
+<img src="images/temp_chart.png" alt="Temperature Chart" width="300" height="200" />
+<ul>
+<li><strong>Weight Chart</strong>: Check the weight reduction achieved through the optimization process. This helps in assessing the material efficiency and overall mass reduction.</li>
+</ul>
+<img src="images/weight_chart.png" alt="Weight Chart" width="300" height="200" />
+<p>The results section provides a comprehensive view of the optimization outcomes, helping you make informed decisions about your 3D model. By effectively interpreting the charts and downloading the detailed results, you can ensure that your model meets the desired criteria for structural and thermal performance.</p>
+<hr />
+<p>By following the above guidelines, you can efficiently analyze and utilize the results generated by our platform to enhance your 3D modeling projects.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="run_optimization.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="send_to_manufacturing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="run_optimization.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="send_to_manufacturing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

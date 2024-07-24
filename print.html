@@ -1,0 +1,828 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Go Additive</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        <!-- src/theme/head.hbs -->
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="dashboard.html"><strong aria-hidden="true">1.</strong> Dashboard</a></li><li class="chapter-item expanded "><a href="project.html"><strong aria-hidden="true">2.</strong> Project</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="problem_definition.html"><strong aria-hidden="true">2.1.</strong> Problem Definition</a></li><li class="chapter-item expanded "><a href="domains.html"><strong aria-hidden="true">2.2.</strong> Domains</a></li><li class="chapter-item expanded "><a href="boundary_conditions.html"><strong aria-hidden="true">2.3.</strong> Boundary Conditions</a></li><li class="chapter-item expanded "><a href="optimization_objective.html"><strong aria-hidden="true">2.4.</strong> Optimization Objective</a></li><li class="chapter-item expanded "><a href="optimization_parameters.html"><strong aria-hidden="true">2.5.</strong> Optimization Parameters</a></li><li class="chapter-item expanded "><a href="tpms.html"><strong aria-hidden="true">2.6.</strong> TPMS</a></li><li class="chapter-item expanded "><a href="run_optimization.html"><strong aria-hidden="true">2.7.</strong> Run the Optimization</a></li><li class="chapter-item expanded "><a href="results.html"><strong aria-hidden="true">2.8.</strong> Results</a></li><li class="chapter-item expanded "><a href="send_to_manufacturing.html"><strong aria-hidden="true">2.9.</strong> Send to Manufacturing</a></li><li class="chapter-item expanded "><a href="final_results.html"><strong aria-hidden="true">2.10.</strong> Final Results</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Go Additive</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <style>
+/* Hide the menu title for this specific page */
+h1.menu-title {
+    display: none;
+}
+</style>
+<center>
+<img src="images/goadditiveimage.png" alt="Go Additive Image" style="width:70%;"/>
+</center>
+<hr />
+<p>Welcome to the platform's documentation! This guide will help you navigate through the process of creating, configuring, and optimizing your 3D models using our advanced tools. Whether you're a new user or an experienced engineer, this documentation aims to provide comprehensive instructions and insights to ensure a smooth and efficient workflow.</p>
+<hr />
+<h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<p>Our platform empowers users to generate 3D models that include optimized regions with a periodic structure known as Triply Periodic Minimal Surfaces (TPMS). These optimized zones can be tailored to meet various criteria, including:</p>
+<ul>
+<li><strong>Structural Compliance</strong>: Enhancing the stiffness of the model.</li>
+<li><strong>Thermal Compliance</strong>: Optimizing for thermal properties.</li>
+<li><strong>Thermal Average on a Surface</strong>: Managing the average temperature across a surface.</li>
+<li><strong>Thermal Variance on a Surface</strong>: Minimizing temperature fluctuations on a surface.</li>
+</ul>
+<h1 id="key-features"><a class="header" href="#key-features">Key Features</a></h1>
+<p>The platform is designed with a robust set of features to support your 3D modeling projects:</p>
+<h2 id="project-management"><a class="header" href="#project-management">Project Management</a></h2>
+<ul>
+<li><strong>New Projects</strong>: Initiate new projects with customized parameters and objectives.</li>
+<li><strong>Existing Projects</strong>: Modify and optimize existing projects with detailed configurations.</li>
+</ul>
+<h2 id="optimization-process"><a class="header" href="#optimization-process">Optimization Process</a></h2>
+<ul>
+<li><strong><a href="./problem_definition.html">Problem Definition</a></strong>: Define the problem and objectives for the optimization process.</li>
+<li><strong><a href="./domains.html">Domains</a></strong>: Configure different domains and material properties.</li>
+<li><strong><a href="./boundary_conditions.html">Boundary Conditions</a></strong>: Set constraints and loads for accurate simulation results.</li>
+<li><strong><a href="./optimization_objective.html">Optimization Objective</a></strong>: Set parameters for 3D models, including defining objectives, tolerances, and influential variables.</li>
+<li><strong><a href="./optimization_parameters.html">Optimization Parameters</a></strong>: Fine-tune the parameters governing the optimization process.</li>
+<li><strong><a href="./tpms.html">TPMS</a></strong>: Incorporate TPMS structures into your models for advanced optimization.</li>
+<li><strong><a href="./run_optimization.html">Run the Optimization</a></strong>: Execute the optimization with selected computational resources.</li>
+<li><strong><a href="./results.html">Results</a></strong>: Analyze the outcomes of the optimization process.</li>
+<li><strong><a href="./send_to_manufacturing.html">Send to Manufacturing</a></strong>: Prepare the optimized model for manufacturing with quality assurance and finishing options.</li>
+</ul>
+<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<p>To begin, explore the User Guide, which will take you through each step of the process, from setting up your first project to sending your optimized model for manufacturing. The guide includes:</p>
+<ul>
+<li><strong>Dashboard</strong>: Navigate through the main features and functionalities of the platform.</li>
+<li><strong>Project Management</strong>: Detailed instructions for managing new and existing projects.</li>
+</ul>
+<p>Each section of the guide is designed to be intuitive and user-friendly, providing you with the necessary tools and information to achieve your project goals.</p>
+<p>We are committed to helping you maximize the potential of your 3D modeling projects through precise and efficient optimization techniques. Dive in, and let's start creating optimized, high-performance models together!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overview-1"><a class="header" href="#overview-1">Overview</a></h1>
+<p>The Dashboard is the central hub for users to access their projects, monitor resource usage, and manage their account settings. It provides a comprehensive overview of the user's activity and available resources, ensuring that they can efficiently navigate and utilize the platform's features.</p>
+<img src="images/dashboard.png" alt="Select the surface" width="600" height="300" />
+<h1 id="key-elements"><a class="header" href="#key-elements">Key Elements</a></h1>
+<h2 id="credits-section"><a class="header" href="#credits-section">Credits Section</a></h2>
+<ul>
+<li>
+<p><strong>Pie Chart:</strong> The pie chart visually represents the distribution of credits. The blue section indicates the available credits, while the gray section shows the used credits.</p>
+</li>
+<li>
+<p><strong>Buy More Credits:</strong> A button below the pie chart allows users to purchase additional credits if needed.</p>
+</li>
+</ul>
+<img src="images/more_credits.png" alt="Select the surface" width="300" height="300" />
+<h2 id="resource-usage-section"><a class="header" href="#resource-usage-section">Resource Usage Section</a></h2>
+<ul>
+<li><strong>Line Graph:</strong> The line graph displays the resource usage trend over the past few months. Each point on the graph represents the resource consumption for a specific month, helping users identify periods of high or low usage.</li>
+</ul>
+<img src="images/resource_usage.png" alt="Select the surface" width="500" height="300" />
+<h2 id="projects-overview-section"><a class="header" href="#projects-overview-section">Projects Overview Section</a></h2>
+<ul>
+<li>
+<p><strong>Total Projects:</strong> The total number of projects managed by the user.</p>
+</li>
+<li>
+<p><strong>Active Projects:</strong> The number of currently active projects.</p>
+</li>
+<li>
+<p><strong>Completed Projects:</strong> The number of projects that have been completed successfully.</p>
+</li>
+</ul>
+<img src="images/dash_proj.png" alt="Select the surface" width="400" height="150" />
+<h2 id="notifications-and-quick-actions"><a class="header" href="#notifications-and-quick-actions">Notifications and Quick Actions:</a></h2>
+<p>Notifications inform the user about project updates and other important alerts. Quick actions enable users to perform common tasks such as creating a new project, accessing existing projects, and submitting feedback.</p>
+<ul>
+<li>
+<p><strong>Create New Project</strong>: A link to initiate a new project creation.</p>
+</li>
+<li>
+<p><strong>Go to Projects</strong>: A link to access the user's projects.</p>
+</li>
+<li>
+<p><strong>Submit Feedback</strong>: A link to provide feedback about the platform.</p>
+</li>
+</ul>
+<img src="images/quick_notifications.png" alt="Select the surface" width="500" height="150" />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="project"><a class="header" href="#project">Project</a></h1>
+<p>The Project section allows users to manage their 3D modeling projects efficiently. Here, users can create new projects, configure existing ones, and optimize models using various criteria. The platform supports a range of features to ensure that each project meets specific requirements and optimization goals.</p>
+<img src="images/projects.png" alt="Select the surface" width="500" height="300" />
+<h2 id="new-projects"><a class="header" href="#new-projects">New Projects:</a></h2>
+<p>Steps to create a new project.</p>
+<ol>
+<li>Click on the <strong>New Projects</strong> button on the Projects page.</li>
+</ol>
+   <img src="images/new_project.png" alt="Select the surface" width="200" height="200" />
+<ol start="2">
+<li>Enter a name for the new project, and click continue.</li>
+</ol>
+   <img src="images/project_name.png" alt="Select the surface" width="200" height="200" />
+<h2 id="existing-projects"><a class="header" href="#existing-projects">Existing Projects</a></h2>
+<p>How to manage and edit existing projects:</p>
+<ol>
+<li>Select any existing project from the Projects page.</li>
+</ol>
+<img src="images/existing_projects.png" alt="Select the surface" width="400" height="200" />
+<p>Once a new project is created or an existing project is selected, you will have access to the options for configuring and optimizing the project.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="definition"><a class="header" href="#definition">Definition</a></h1>
+<img src="images/problem_definition.png" alt="Definition Navigation" width="350" height="50" />
+<p>The "Definition" section is a key part of initiating a new project on the platform. This section appears when you choose to upload a new project rather than working on an existing one. It allows you to define the initial parameters and upload the necessary files to start the optimization process.</p>
+<img src="images/problem_defi.png" alt="Definition" width="250" height="350" />
+<h2 id="interface-overview"><a class="header" href="#interface-overview">Interface Overview</a></h2>
+<h3 id="upload-a-msh-file"><a class="header" href="#upload-a-msh-file">Upload a .msh File</a></h3>
+<img src="images/msh_upload.png" alt="Upload a .msh File" width="250" height="150" />
+<p>The first step in the "Definition" section is to upload a .msh file. This file contains the mesh data for your project, which is essential for the optimization process.</p>
+<ul>
+<li><strong>Upload a .msh File</strong>: Click the upload area to select and upload your .msh file from your local device. Ensure the file is correctly formatted and contains the necessary mesh information for your project.</li>
+</ul>
+<h3 id="physical-type"><a class="header" href="#physical-type">Physical Type</a></h3>
+<img src="images/physical_type.png" alt="Physical Type" width="300" height="200" />
+<p>After uploading your .msh file, the next step is to select the physical type of your project. This setting determines the nature of the optimization process, tailoring it to the specific requirements of your project.</p>
+<p><strong>Physical Type</strong>: This is a drop-down menu where you can select the type of physical process you want to optimize. The available options are:</p>
+<ul>
+<li><strong>Thermal</strong>: Select this option if your project involves thermal properties and heat management.</li>
+<li><strong>Structural</strong>: Select this option if your project involves structural integrity and mechanical properties.</li>
+</ul>
+<h3 id="send-mesh"><a class="header" href="#send-mesh">Send Mesh</a></h3>
+<p>Click this button to send the uploaded mesh and the selected physical type to the server. This action initiates the processing of your project, preparing it for the optimization phase.</p>
+<h3 id="uploaded-file-confirmation"><a class="header" href="#uploaded-file-confirmation">Uploaded File Confirmation</a></h3>
+<img src="images/uploaded_file_confirmation.png" alt="Uploaded File Confirmation" width="700" height="400" />
+<p>After successfully uploading the file, it will be visible in the interface, confirming that the file has been correctly uploaded and is ready for further processing.</p>
+<p><strong>3D Model View</strong>: This interface displays the uploaded 3D model, allowing you to interact and inspect the model in detail.</p>
+<h3 id="view-options"><a class="header" href="#view-options">View Options</a></h3>
+<img src="images/3d_model_view.png" alt="3D Model View and Options" width="700" height="80" />
+<p>After the file is visible, the platform provides a 3D model view of the uploaded mesh. This section includes several options to customize the view of your 3D model.</p>
+<ul>
+<li>
+<p><strong>Wireframe</strong>: A checkbox that, when selected, displays the 3D model in a wireframe view, showing the mesh structure.</p>
+</li>
+<li>
+<p><strong>Geometry</strong>: A checkbox that, when selected, displays the geometric shape of the 3D model.</p>
+</li>
+<li>
+<p><strong>Design Domain</strong>: A checkbox that, when selected, highlights the design domain of the 3D model, indicating the area available for optimization.</p>
+</li>
+<li>
+<p><strong>Fluid Domain</strong>: A checkbox that, when selected, shows the fluid domain, relevant for projects involving fluid dynamics.</p>
+</li>
+<li>
+<p><strong>Remove File</strong>: A button that, when clicked, removes the uploaded file from the interface, allowing you to upload a new file or make changes to the existing setup.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="domains"><a class="header" href="#domains">Domains</a></h1>
+<img src="images/domain_nav.png" alt="Domains Navigation" width="350" height="50" />
+<p>The Domains section allows users to define and configure the different material and domain properties for their project. This is a crucial step in setting up the model for optimization and analysis.</p>
+<img src="images/domain_opt.png" alt="Domains" width="200" height="400" />
+<h2 id="interface-overview-1"><a class="header" href="#interface-overview-1">Interface Overview</a></h2>
+<h4 id="domain-name"><a class="header" href="#domain-name">Domain Name</a></h4>
+<img src="images/dom_name.png" alt="Domain Name" width="300" height="150" />
+<ul>
+<li><strong>Select the surface:</strong> A dropdown menu to select the surface you want to define as a domain. Each domain corresponds to a specific part of the model.</li>
+</ul>
+<h4 id="material"><a class="header" href="#material">Material</a></h4>
+<img src="images/material.png" alt="Material" width="300" height="150" />
+<ul>
+<li><strong>Material:</strong> A dropdown menu to select the material for the selected domain. Example options include Aluminum, Steel, Titanium, etc.</li>
+</ul>
+<h4 id="hooke-module"><a class="header" href="#hooke-module">Hooke Module</a></h4>
+<img src="images/hooke.png" alt="Hooke Module" width="300" height="100" />
+<ul>
+<li><strong>Hooke Module [ ]:</strong> The Young's modulus of the material in Pascals (Pa). This is a measure of the stiffness of the material.</li>
+</ul>
+<h4 id="poisson-coefficient"><a class="header" href="#poisson-coefficient">Poisson Coefficient</a></h4>
+<img src="images/pois_coef.png" alt="Poisson Coefficient" width="300" height="100" />
+<ul>
+<li><strong>Poisson Coefficient [ ]:</strong> The Poisson's ratio of the material. This is a measure of the deformation of the material in directions perpendicular to the direction of loading.</li>
+</ul>
+<h4 id="density"><a class="header" href="#density">Density</a></h4>
+<img src="images/density.png" alt="Density" width="300" height="100" />
+<ul>
+<li><strong>Density [ ]:</strong> The density of the material in kilograms per cubic meter (kg/m³).</li>
+</ul>
+<h4 id="structural-source-term"><a class="header" href="#structural-source-term">Structural Source Term</a></h4>
+<img src="images/sst.png" alt="Structural Source Term" width="300" height="100" />
+<ul>
+<li><strong>Structural Source Term [N/m^3]:</strong> Input fields for the structural source term in Newtons per cubic meter (N/m³) in the X, Y, and Z directions. This is used to define any additional forces acting on the domain.</li>
+</ul>
+<h3 id="options"><a class="header" href="#options">Options</a></h3>
+<img src="images/tpms_opt.png" alt="Options" width="300" height="150" />
+<ul>
+<li><strong>Optimize And Generate TPMS:</strong> A checkbox to enable optimization and generation of Triply Periodic Minimal Surface (TPMS) structures. TPMS structures are used for lightweight and high-strength design.</li>
+<li><strong>Generate TPMS:</strong> A checkbox to generate TPMS without optimization.</li>
+</ul>
+<h3 id="save-and-continue"><a class="header" href="#save-and-continue">Save and Continue</a></h3>
+<ul>
+<li><strong>Save and Continue:</strong> Click this button to save the current boundary condition and continue to the next step.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="boundary-conditions"><a class="header" href="#boundary-conditions">Boundary Conditions</a></h1>
+<img src="images/boundry_condition.png" alt="Boundary Conditions Navigation" width="350" height="50" />
+<p>The Boundary Conditions section allows users to define the constraints and loads applied to the model. Properly setting boundary conditions is crucial for accurate simulation and optimization results.</p>
+<img src="images/boundry.png" alt="Boundary Conditions" width="300" height="300" />
+<h2 id="interface-overview-2"><a class="header" href="#interface-overview-2">Interface Overview</a></h2>
+<h4 id="adding-a-boundary-condition"><a class="header" href="#adding-a-boundary-condition">Adding a Boundary Condition</a></h4>
+<img src="images/add_boundry.png" alt="Adding a Boundary Condition" width="300" height="50" />
+<ul>
+<li><strong>Add boundary:</strong> Click this link to add a new boundary condition.</li>
+</ul>
+<h4 id="boundary-condition-configuration"><a class="header" href="#boundary-condition-configuration">Boundary Condition Configuration</a></h4>
+<p>When adding or editing a boundary condition, the configuration panel will display several options:</p>
+<h4 id="select-the-surface"><a class="header" href="#select-the-surface">Select the Surface</a></h4>
+<img src="images/select_surf.png" alt="Select the surface" width="300" height="100" />
+<ul>
+<li>
+<p><em>Dirichlet_BC:</em> This boundary condition specifies the fixed values for displacement (i.e., constraints). In Dirichlet boundary conditions, the solution to the variable is assumed.</p>
+</li>
+<li>
+<p><em>Neumann_BC:</em> This boundary condition specifies the values for forces or stresses applied to the model. In Neumann boundary conditions, a solution is assumed for the derivative of the variable.</p>
+</li>
+<li>
+<p><em>Outer walls:</em> Select this option if the boundary condition applies to the outer walls of the model.</p>
+</li>
+<li>
+<p><em>Inner walls:</em> Select this option if the boundary condition applies to the inner walls of the model.</p>
+</li>
+</ul>
+<h4 id="type-of-boundary-condition"><a class="header" href="#type-of-boundary-condition">Type of Boundary Condition</a></h4>
+<img src="images/force_disp.png" alt="Type of Boundary Condition" width="300" height="90" />
+<ul>
+<li>
+<p><em>Force:</em> Specifies a force boundary condition. When selected, the user must enter the force components in the X, Y, and Z directions.</p>
+</li>
+<li>
+<p><em>Displacement:</em> Specifies a displacement boundary condition. When selected, the user must enter the displacement components in the X, Y, and Z directions.</p>
+</li>
+</ul>
+<h4 id="forcedisplacement-components"><a class="header" href="#forcedisplacement-components">Force/Displacement Components</a></h4>
+<img src="images/force_disp_comp.png" alt="Force/Displacement Components" width="300" height="150" />
+<ul>
+<li><strong>X, Y, Z Fields:</strong> Enter the components of the force or displacement in the respective fields. These values define how the force or displacement is applied in each direction.</li>
+</ul>
+<h3 id="save-and-continue-1"><a class="header" href="#save-and-continue-1">Save and Continue</a></h3>
+<ul>
+<li><strong>Save and Continue:</strong> Click this button to save the current boundary condition and continue to the next step.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="optimization-objective"><a class="header" href="#optimization-objective">Optimization Objective</a></h1>
+<img src="images/opt_object.png" alt="Optimization Objective navigation" width="350" height="50" />
+<p>The "Optimization Objective" section allows users to set and configure the parameters for optimizing their 3D models. This includes defining the objective, tolerances, and other variables that influence the optimization process.</p>
+<img src="images/optimization_objective.png" alt="Optimization Objective" width="300" height="500" />
+<h2 id="interface-overview-3"><a class="header" href="#interface-overview-3">Interface Overview</a></h2>
+<h3 id="objective"><a class="header" href="#objective">Objective</a></h3>
+<img src="images/objective.png" alt="Objective" width="300" height="100" />
+<ul>
+<li><strong>Compliance</strong>: Minimizes the structural compliance (maximizes stiffness) of the model.</li>
+</ul>
+<h3 id="volume-fraction"><a class="header" href="#volume-fraction">Volume Fraction</a></h3>
+<img src="images/vol_frac.png" alt="Volume Fraction" width="300" height="100" />
+<p>Set the volume fraction, which defines the fraction of the design space that will be filled with material. This value is typically between 0 and 1.</p>
+<h3 id="initial-value-of-design-variable"><a class="header" href="#initial-value-of-design-variable">Initial Value of Design Variable</a></h3>
+<img src="images/initial_val.png" alt="Initial Value of Design Variable" width="300" height="100" />
+<p>Specify the initial value for the design variable, which represents the starting point for the optimization process.</p>
+<h3 id="absolute-tolerance"><a class="header" href="#absolute-tolerance">Absolute Tolerance</a></h3>
+<img src="images/abs_tol.png" alt="Absolute Tolerance" width="300" height="100" />
+<p>Enter the absolute tolerance, which defines the acceptable absolute error in the optimization results.</p>
+<h3 id="relative-tolerance"><a class="header" href="#relative-tolerance">Relative Tolerance</a></h3>
+<img src="images/rel_tol.png" alt="Relative Tolerance" width="300" height="100" />
+<p>Specify the relative tolerance, which sets the acceptable relative error in the optimization results.</p>
+<h3 id="maximum-iterations"><a class="header" href="#maximum-iterations">Maximum Iterations</a></h3>
+<img src="images/maxi_iter.png" alt="Maximum Iterations" width="300" height="100" />
+<p>Set the maximum number of iterations allowed for the optimization process. This controls how many times the optimization algorithm will run before stopping.</p>
+<h3 id="minimization-type"><a class="header" href="#minimization-type">Minimization Type</a></h3>
+<img src="images/mini_type.png" alt="Minimization Type" width="300" height="150" />
+<p>Choose the type of minimization for the optimization objective. Available options include:</p>
+<ul>
+<li><strong>Min</strong>: Minimizes the chosen objective.</li>
+<li><strong>Max</strong>: Maximizes the chosen objective.</li>
+</ul>
+<h3 id="save-and-continue-2"><a class="header" href="#save-and-continue-2">Save and Continue</a></h3>
+<ul>
+<li><strong>Save and Continue:</strong> Click this button to save the current boundary condition and continue to the next step.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="optimization-parameters"><a class="header" href="#optimization-parameters">Optimization Parameters</a></h1>
+<img src="images/opt_peri.png" alt="Optimization Parameters navigation" width="350" height="50" />
+<p>The "Optimization Parameters" section is a crucial part of configuring your 3D modeling project. Here, you can specify detailed settings that will govern how the optimization process is executed. These settings allow you to tailor the optimization to meet your precise needs and constraints, ensuring the final model adheres to your design requirements.</p>
+<img src="images/optimization_parameters.png" alt="Optimization Parameters" width="250" height="350" />
+<h2 id="interface-overview-4"><a class="header" href="#interface-overview-4">Interface Overview</a></h2>
+<h3 id="filter-radius-m"><a class="header" href="#filter-radius-m">Filter Radius [m]</a></h3>
+<img src="images/filter_radius.png" alt="Filter Radius" width="300" height="100" />
+<p>The filter radius is a parameter that determines the extent of the filter's influence during the optimization process. This setting is critical as it affects how the filter smooths or sharpens features in your model. By entering the desired filter radius in meters, you ensure that the optimization process will correctly interpret and apply this setting according to the specified unit of measurement.</p>
+<ul>
+<li><strong>Filter Radius [m]</strong>: This is a numerical input field where you can enter the filter radius value in meters. Properly setting this value helps in controlling the scale of feature refinement in the model, which can be essential for achieving desired structural properties.</li>
+</ul>
+<h3 id="threshold-steepness"><a class="header" href="#threshold-steepness">Threshold Steepness</a></h3>
+<img src="images/threshold_steepness.png" alt="Threshold Steepness" width="300" height="200" />
+<p>Threshold steepness values play a significant role in defining the sharpness of transitions between different optimization regions within your model. These values are crucial for fine-tuning how gradual or abrupt changes occur between optimized areas. You can specify multiple threshold values to enhance the precision of the optimization process, which can be particularly important for complex designs.</p>
+<ul>
+<li><strong>Threshold 1</strong>: A numerical input field for the first threshold value. This value sets the initial steepness parameter.</li>
+<li><strong>Threshold 2</strong>: A numerical input field for the second threshold value. This allows for additional control over the steepness and transition of optimization regions.</li>
+</ul>
+<h3 id="adding-and-removing-thresholds"><a class="header" href="#adding-and-removing-thresholds">Adding and Removing Thresholds</a></h3>
+<img src="images/add_remove.png" alt="Adding and Removing Thresholds" width="300" height="150" />
+<p>In many cases, you might need to adjust the number of thresholds to better control the optimization process. This interface allows you to dynamically add or remove threshold values:</p>
+<ul>
+<li><strong>Adding Thresholds</strong>: Click the green "+" button to add a new threshold input field. This is useful when you need more granular control over the transition settings.</li>
+<li><strong>Removing Thresholds</strong>: Click the red "-" button next to each threshold input field to remove it. This helps in simplifying the interface when fewer thresholds are needed.</li>
+</ul>
+<h3 id="save-and-continue-3"><a class="header" href="#save-and-continue-3">Save and Continue</a></h3>
+<p>After configuring the filter radius and threshold steepness values, the next step is to save your settings and proceed with the optimization. The "Save and Continue" button is designed to capture all your configured parameters and move you to the subsequent phase of the process.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tpms"><a class="header" href="#tpms">TPMS</a></h1>
+<img src="images/tpms_nav.png" alt="TPMS Navigation" width="350" height="50" />
+<p>The TPMS (Triply Periodic Minimal Surfaces) section allows users to configure the properties and parameters for generating TPMS structures within their project. This section includes fields for defining the type of TPMS structure, dimensional parameters, step dimensions, and more. Proper configuration of these parameters is crucial for generating accurate and optimized TPMS structures.</p>
+<img src="images/tpms.png" alt="TPMS" width="300" height="500" />
+<h2 id="interface-overview-5"><a class="header" href="#interface-overview-5">Interface Overview</a></h2>
+<h3 id="type-of-tpms-structure"><a class="header" href="#type-of-tpms-structure">Type of TPMS Structure</a></h3>
+<img src="images/type_of_tpms.png" alt="Type of TPMS Structure" width="300" height="100" />
+<ul>
+<li><strong>Enter TPMS structure type:</strong> This field specifies the type of TPMS structure to be generated. Common types include Gyroid, Diamond, and Schwarz. Enter the desired TPMS structure type in this field.</li>
+</ul>
+<h3 id="dimensional-parameters"><a class="header" href="#dimensional-parameters">Dimensional Parameters</a></h3>
+<img src="images/dimen_para.png" alt="Dimensional Parameters" width="300" height="100" />
+<ul>
+<li><strong>a1, a2, a3:</strong> These fields represent the dimensional parameters for the TPMS structure. These parameters define the periodicity and scaling of the TPMS structure in three orthogonal directions. Enter the values for each dimension accordingly.</li>
+</ul>
+<h3 id="step-dimension"><a class="header" href="#step-dimension">Step Dimension</a></h3>
+<img src="images/step_dimen.png" alt="Step Dimension" width="300" height="100" />
+<ul>
+<li><strong>Enter step dimension:</strong> This field specifies the step size for the TPMS structure generation. The step dimension determines the resolution and detail level of the TPMS structure. A smaller step size results in higher resolution and more detail, while a larger step size results in lower resolution and less detail.</li>
+</ul>
+<h3 id="axis-step-number-of-threads"><a class="header" href="#axis-step-number-of-threads">Axis Step (Number of Threads)</a></h3>
+<img src="images/axis_step.png" alt="Axis Step (Number of Threads)" width="300" height="100" />
+<ul>
+<li><strong>Enter number of threads:</strong> This field defines the axis step or the number of threads for the TPMS structure. It specifies the frequency of the TPMS surface along a given axis. Enter the desired number of threads in this field.</li>
+</ul>
+<h3 id="max-number-of-points"><a class="header" href="#max-number-of-points">Max Number of Points</a></h3>
+<img src="images/max_points.png" alt="Max Number of Points" width="300" height="100" />
+<ul>
+<li><strong>Enter max number of points:</strong> This field specifies the maximum number of points to be used in the TPMS structure. The number of points affects the complexity and computational requirements of the TPMS generation. Enter the maximum number of points that should be used.</li>
+</ul>
+<h3 id="offset-at-min-and-max-point-m"><a class="header" href="#offset-at-min-and-max-point-m">Offset at Min and Max Point [m]</a></h3>
+<img src="images/offset_min_max.png" alt="Offset at Min and Max Point [m]" width="300" height="100" />
+<ul>
+<li><strong>Min, Max:</strong> These fields define the offset values at the minimum and maximum points of the TPMS structure in meters. Offsets are used to shift the TPMS structure along a specific axis. Enter the desired offset values for both minimum and maximum points.</li>
+</ul>
+<h3 id="offset-step-m"><a class="header" href="#offset-step-m">Offset Step [m]</a></h3>
+<img src="images/offset.png" alt="Offset Step" width="300" height="100" />
+<ul>
+<li><strong>Enter step:</strong> This field specifies the step size for the offset in meters. The offset step determines how much the TPMS structure is shifted per step. Enter the desired offset step value.</li>
+</ul>
+<h3 id="consider-boolean-operation"><a class="header" href="#consider-boolean-operation">Consider Boolean Operation</a></h3>
+<img src="images/bool_opt.png" alt="Boolean Operation" width="300" height="180" />
+<ul>
+<li><strong>Positive, Negative:</strong> This dropdown menu allows users to select the type of Boolean operation to be applied to the TPMS structure.
+<ul>
+<li><strong>Positive:</strong> Selecting "Positive" will keep the regions where the TPMS structure intersects with the existing model, effectively adding the TPMS structure to the model.</li>
+<li><strong>Negative:</strong> Selecting "Negative" will subtract the regions where the TPMS structure intersects with the existing model, effectively removing those regions from the model.</li>
+</ul>
+</li>
+</ul>
+<h3 id="save-and-continue-4"><a class="header" href="#save-and-continue-4">Save and Continue</a></h3>
+<ul>
+<li><strong>Save and Continue:</strong> Click this button to save the current TPMS configuration and proceed to the next step.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="run-the-optimization"><a class="header" href="#run-the-optimization">Run the Optimization</a></h1>
+<img src="images/run_the_opt.png" alt="Run the Optimization Navigation" width="350" height="50" />
+<p>The "Run the Optimization" section allows users to configure and initiate the optimization process for their 3D modeling projects. This section includes options for selecting the computational resources and saving the current configuration before running the optimization.</p>
+<img src="images/optimization.png" alt="Run the Optimization" width="300" height="400" />
+<h2 id="interface-overview-6"><a class="header" href="#interface-overview-6">Interface Overview</a></h2>
+<h3 id="cpu-cores"><a class="header" href="#cpu-cores">CPU Cores</a></h3>
+<img src="images/cpu_cores.png" alt="CPU Cores" width="300" height="200" />
+<p>This dropdown menu allows users to select the number of CPU cores and corresponding RAM to be used for the optimization process. The available options are:</p>
+<ul>
+<li><strong>2 CPUs - 16 GB RAM:</strong> Select this option for a moderate computational load.</li>
+<li><strong>4 CPUs - 32 GB RAM:</strong> Select this option for a higher computational load.</li>
+<li><strong>8 CPUs - 64 GB RAM:</strong> Select this option for an even higher computational load.</li>
+<li><strong>18 CPUs - 240 GB RAM:</strong> Select this option for the maximum computational load.</li>
+</ul>
+<p>Choosing a higher number of CPU cores and more RAM will speed up the optimization process but may require more computational resources.</p>
+<h3 id="credit-required-for-optimization"><a class="header" href="#credit-required-for-optimization">Credit Required for Optimization</a></h3>
+<img src="images/credit.png" alt="Credit Required" width="300" height="200" />
+<ul>
+<li><strong>Credit Calculation:</strong> This field displays the amount of credit required to run the optimization based on the selected computational resources. The credit requirement will vary depending on the number of CPU cores and RAM selected.</li>
+</ul>
+<h3 id="save-previous-steps--run-optimization"><a class="header" href="#save-previous-steps--run-optimization">Save Previous Steps &amp; Run Optimization</a></h3>
+<img src="images/save_run.png" alt="Save Previous Steps & Run Optimization" width="300" height="150" />
+<ul>
+<li>
+<p><strong>Save Previous Steps:</strong> Click this button to save the current configuration and all previous steps before running the optimization. This ensures that all settings are stored and can be reviewed or modified later if needed.</p>
+</li>
+<li>
+<p><strong>Run Optimization:</strong> After saving the previous steps, this button will become active. Click this button to start the optimization process using the selected computational resources. The optimization process will use the saved configuration to optimize the 3D model according to the specified parameters.</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="results"><a class="header" href="#results">Results</a></h1>
+<img src="images/results.png" alt="Results Navigation" width="350" height="50" />
+<p>This section provides an overview of how to view and interpret the results of your 3D modeling projects on our platform. Once the optimization process is complete, you can access detailed results through the interface.</p>
+<img src="images/result_page.png" alt="Results" width="300" height="150" />
+<h2 id="viewing-results"><a class="header" href="#viewing-results">Viewing Results</a></h2>
+<p>To view the results of your project, follow these steps:</p>
+<p><strong>Show Results</strong>: Click the "Show Results" button on the interface. This will display various charts and graphs that represent the outcome of your optimization process.</p>
+<p>The results are displayed in the form of charts, which provide a visual representation of key metrics. The main charts include:</p>
+<img src="images/charts.png" alt="Charts Results" width="600" height="300" />
+<ul>
+<li>
+<p><strong>Compliance Chart</strong>: This chart shows the compliance of the model in 1/Pa (inverse Pascals). Compliance is a measure of the flexibility of the structure. Lower compliance values indicate a stiffer structure.</p>
+</li>
+<li>
+<p><strong>Temperature Chart</strong>: This chart displays the temperature distribution across the surface of the model. It shows the minimum, mean, and maximum temperatures in Kelvin (K).</p>
+</li>
+<li>
+<p><strong>Weight Chart</strong>: This chart presents the weight of the model in kilograms (Kg). It helps in understanding the mass distribution and optimization of the structure.</p>
+</li>
+</ul>
+<h2 id="downloading-results"><a class="header" href="#downloading-results">Downloading Results</a></h2>
+<p>For further analysis or record-keeping, you can download the results of your project. Follow these steps:</p>
+<p><strong>Download Results</strong>: Click the "Download Results" button on the interface. This will initiate the download of a file containing all the detailed results of your project.</p>
+<pre><code>The downloaded file includes:
+
+- **Charts Data**: Detailed data points used to generate the compliance, temperature, and weight charts.
+
+- **Optimization Summary**: A summary of the optimization process, including the initial parameters, boundary conditions, and the final optimized values.
+
+- **Configuration Settings**: The settings and configurations used for the optimization, which can be useful for reproducing or modifying the project in the future.
+</code></pre>
+<h2 id="interpreting-the-charts"><a class="header" href="#interpreting-the-charts">Interpreting the Charts</a></h2>
+<p>Understanding the charts is crucial for evaluating the performance and effectiveness of your optimized model. Here are some key points to consider:</p>
+<ul>
+<li><strong>Compliance Chart</strong>: Analyze the trend of compliance values. A decreasing trend indicates an increase in the stiffness of the model, which is desirable for structural applications.</li>
+</ul>
+<img src="images/compliance_chart.png" alt="Compliance Chart" width="300" height="200" />
+<ul>
+<li><strong>Temperature Chart</strong>: Evaluate the temperature distribution to ensure that the model meets the thermal compliance requirements. Look for uniform temperature distribution or specific patterns as per the project's needs.</li>
+</ul>
+<img src="images/temp_chart.png" alt="Temperature Chart" width="300" height="200" />
+<ul>
+<li><strong>Weight Chart</strong>: Check the weight reduction achieved through the optimization process. This helps in assessing the material efficiency and overall mass reduction.</li>
+</ul>
+<img src="images/weight_chart.png" alt="Weight Chart" width="300" height="200" />
+<p>The results section provides a comprehensive view of the optimization outcomes, helping you make informed decisions about your 3D model. By effectively interpreting the charts and downloading the detailed results, you can ensure that your model meets the desired criteria for structural and thermal performance.</p>
+<hr />
+<p>By following the above guidelines, you can efficiently analyze and utilize the results generated by our platform to enhance your 3D modeling projects.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="send-to-manufacturing"><a class="header" href="#send-to-manufacturing">Send to Manufacturing</a></h1>
+<img src="images/send_to_manu.png" alt="Send to Manufacturing Navigation" width="350" height="50" />
+<p>The "Send to Manufacturing" section is the final step in preparing your 3D modeling project for production. This section allows you to specify various parameters to ensure that your project meets the required standards and specifications. It includes options for quality assurance measures, finishing processes, quantity, material selection, and certification requirements.</p>
+<img src="images/send_to_manufacture.png" alt="Send to Manufacturing" width="250" height="400" />
+<h2 id="interface-overview-7"><a class="header" href="#interface-overview-7">Interface Overview</a></h2>
+<h3 id="quality-assurance-measures"><a class="header" href="#quality-assurance-measures">Quality Assurance Measures</a></h3>
+<img src="images/QA_measures.png" alt="Quality Assurance Measures" width="300" height="250" />
+<p>Quality assurance is critical in manufacturing to ensure that the produced parts meet the necessary standards and specifications. The available options in this dropdown menu are:</p>
+<ul>
+<li>
+<p><strong>Density Test:</strong> Measures the density of the material used in the project to ensure it conforms to specified values, which is crucial for applications where material properties like weight and strength are important.</p>
+</li>
+<li>
+<p><strong>Tensile Test:</strong> Evaluates the tensile strength of the material, determining the maximum stress the material can withstand while being stretched or pulled before breaking. This is essential for applications where the material will be subjected to tensile forces.</p>
+</li>
+<li>
+<p><strong>Hardness Test:</strong> Measures the hardness of the material, indicating its resistance to deformation or scratching. This is important for parts that will experience wear and abrasion.</p>
+</li>
+<li>
+<p><strong>Roughness Measurement:</strong> Assesses the surface roughness of the manufactured part, which can affect performance, appearance, and mechanical properties.</p>
+</li>
+<li>
+<p><strong>CT-scan with Surface Analysis:</strong> Uses computed tomography (CT) scanning to create a detailed 3D image of the part's internal and external structures. Surface analysis provides information about the part's surface characteristics and any defects.</p>
+</li>
+<li>
+<p><strong>Microsection analysis with protocol:</strong> This option involves slicing the material to examine its internal structure under a microscope. It provides details on grain structure and internal defects. Results are documented for quality assurance.</p>
+</li>
+<li>
+<p><strong>incl. target/actual comparison (best fit):</strong> This option compares the manufactured part with the design specifications. The "best fit" analysis ensures optimal alignment with the target specifications. It highlights deviations and confirms adherence to design requirements.</p>
+</li>
+</ul>
+<h3 id="finish-options"><a class="header" href="#finish-options">Finish Options</a></h3>
+<img src="images/finish_options.png" alt="Finish Options" width="300" height="200" />
+<p>Finishing processes improve the appearance, performance, and durability of manufactured parts. The available options in this dropdown menu are:</p>
+<ul>
+<li>
+<p><strong>Blasting:</strong> Uses a high-pressure stream of abrasive material to clean or finish the surface of the part, removing surface contaminants and providing a uniform finish.</p>
+</li>
+<li>
+<p><strong>Heat Treatment:</strong> Involves heating and cooling the material to alter its physical and mechanical properties, improving hardness, strength, and durability.</p>
+</li>
+<li>
+<p><strong>Machining Post Processing:</strong> Includes various machining operations such as milling, drilling, and turning to achieve the desired final shape and dimensions, ensuring precision and accuracy in the finished part.</p>
+</li>
+</ul>
+<h3 id="quantity"><a class="header" href="#quantity">Quantity</a></h3>
+<img src="images/quantity.png" alt="Quantity" width="300" height="150" />
+<p>Specify the number of units to be manufactured. Enter the desired quantity in the provided field, ensuring it matches your production needs.</p>
+<h3 id="material-1"><a class="header" href="#material-1">Material</a></h3>
+<img src="images/material.png" alt="Material" width="300" height="150" />
+<p>Material selection directly affects the performance, durability, and cost of the produced parts. The available options in this dropdown menu are:</p>
+<ul>
+<li>
+<p><strong>Aluminum Alloy 2024:</strong> Known for its high strength-to-weight ratio, good fatigue resistance, and excellent machinability. Commonly used in aerospace and automotive applications.</p>
+</li>
+<li>
+<p><strong>Tungsten Carbide:</strong> A very hard and wear-resistant material used in cutting tools, abrasives, and other applications requiring high hardness and toughness.</p>
+</li>
+<li>
+<p><strong>Titanium Gr.5 3.7164 - Ti6Al4V:</strong> A strong and lightweight alloy with excellent corrosion resistance, widely used in aerospace, medical, and marine applications.</p>
+</li>
+<li>
+<p><strong>Inconel (IN718):</strong> A nickel-chromium alloy known for its high strength, corrosion resistance, and ability to withstand extreme temperatures. Used in aerospace, chemical processing, and power generation industries.</p>
+</li>
+<li>
+<p><strong>Tool Steel 1.2709:</strong> A high-strength steel commonly used for tools, dies, and molds due to its excellent hardness and toughness.</p>
+</li>
+</ul>
+<h3 id="certification"><a class="header" href="#certification">Certification</a></h3>
+<img src="images/certification.png" alt="Certification" width="300" height="250" />
+<p>Certifications ensure that the manufactured parts meet industry standards and regulatory requirements. The available options in this dropdown menu are:</p>
+<ul>
+<li>
+<p><strong>EN9100:</strong> A quality management system standard for the aerospace industry, ensuring that the manufactured parts meet the stringent requirements of the aerospace sector.</p>
+</li>
+<li>
+<p><strong>EASA 21.G:</strong> A certification for design and production organizations in the aerospace sector, ensuring compliance with the European Aviation Safety Agency (EASA) regulations.</p>
+</li>
+<li>
+<p><strong>ISO 9001:</strong> A general quality management system standard that ensures the consistency and quality of products and services across various industries.</p>
+</li>
+<li>
+<p><strong>ISO 14001:</strong> An environmental management system standard that helps organizations minimize their environmental impact and improve sustainability.</p>
+</li>
+</ul>
+<h3 id="sending-the-project-to-manufacturing"><a class="header" href="#sending-the-project-to-manufacturing">Sending the Project to Manufacturing</a></h3>
+<p>After configuring all the options, submit the project for manufacturing by clicking the "Send" button. Before doing so, Before doing so, review all the selected options to ensure accuracy and completeness.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="final-results"><a class="header" href="#final-results">Final Results</a></h1>
+<p>This section is dedicated to showcasing the final results of the 3D models optimized for structural and thermal purposes. Below, you can find the placeholders for inserting images and key metrics related to the optimized models.</p>
+<h2 id="structural-optimization"><a class="header" href="#structural-optimization">Structural Optimization</a></h2>
+<h3 id="model-overview"><a class="header" href="#model-overview">Model Overview</a></h3>
+<img src="path/to/your/image.png" alt="Structural Optimization Overview" width="300" height="500" />
+<ul>
+<li><strong>Key Metrics:</strong>
+<ul>
+<li>Stiffness:</li>
+<li>Weight:</li>
+<li>Load Bearing Capacity:</li>
+<li>Other relevant metrics:</li>
+</ul>
+</li>
+</ul>
+<h3 id="detailed-analysis"><a class="header" href="#detailed-analysis">Detailed Analysis</a></h3>
+<img src="path/to/your/image.png" alt="Structural Optimization Analysis" width="300" height="500" />
+<ul>
+<li><strong>Analysis Details:</strong>
+<ul>
+<li>Stress Distribution:</li>
+<li>Deformation:</li>
+<li>Material Properties:</li>
+<li>Other relevant details:</li>
+</ul>
+</li>
+</ul>
+<h2 id="thermal-optimization"><a class="header" href="#thermal-optimization">Thermal Optimization</a></h2>
+<h3 id="model-overview-1"><a class="header" href="#model-overview-1">Model Overview</a></h3>
+<img src="path/to/your/image.png" alt="Thermal Optimization Overview" width="300" height="500" />
+<ul>
+<li><strong>Key Metrics:</strong>
+<ul>
+<li>Thermal Conductivity:</li>
+<li>Average Surface Temperature:</li>
+<li>Temperature Variance:</li>
+<li>Other relevant metrics:</li>
+</ul>
+</li>
+</ul>
+<h3 id="detailed-analysis-1"><a class="header" href="#detailed-analysis-1">Detailed Analysis</a></h3>
+<img src="path/to/your/image.png" alt="Thermal Optimization Analysis" width="300" height="500" />
+<ul>
+<li><strong>Analysis Details:</strong>
+<ul>
+<li>Temperature Distribution:</li>
+<li>Heat Flux:</li>
+<li>Material Properties:</li>
+<li>Other relevant details:</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

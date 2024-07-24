@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Domains - Go Additive</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- src/theme/head.hbs -->
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="dashboard.html"><strong aria-hidden="true">1.</strong> Dashboard</a></li><li class="chapter-item expanded "><a href="project.html"><strong aria-hidden="true">2.</strong> Project</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="problem_definition.html"><strong aria-hidden="true">2.1.</strong> Problem Definition</a></li><li class="chapter-item expanded "><a href="domains.html" class="active"><strong aria-hidden="true">2.2.</strong> Domains</a></li><li class="chapter-item expanded "><a href="boundary_conditions.html"><strong aria-hidden="true">2.3.</strong> Boundary Conditions</a></li><li class="chapter-item expanded "><a href="optimization_objective.html"><strong aria-hidden="true">2.4.</strong> Optimization Objective</a></li><li class="chapter-item expanded "><a href="optimization_parameters.html"><strong aria-hidden="true">2.5.</strong> Optimization Parameters</a></li><li class="chapter-item expanded "><a href="tpms.html"><strong aria-hidden="true">2.6.</strong> TPMS</a></li><li class="chapter-item expanded "><a href="run_optimization.html"><strong aria-hidden="true">2.7.</strong> Run the Optimization</a></li><li class="chapter-item expanded "><a href="results.html"><strong aria-hidden="true">2.8.</strong> Results</a></li><li class="chapter-item expanded "><a href="send_to_manufacturing.html"><strong aria-hidden="true">2.9.</strong> Send to Manufacturing</a></li><li class="chapter-item expanded "><a href="final_results.html"><strong aria-hidden="true">2.10.</strong> Final Results</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Go Additive</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="domains"><a class="header" href="#domains">Domains</a></h1>
+<img src="images/domain_nav.png" alt="Domains Navigation" width="350" height="50" />
+<p>The Domains section allows users to define and configure the different material and domain properties for their project. This is a crucial step in setting up the model for optimization and analysis.</p>
+<img src="images/domain_opt.png" alt="Domains" width="200" height="400" />
+<h2 id="interface-overview"><a class="header" href="#interface-overview">Interface Overview</a></h2>
+<h4 id="domain-name"><a class="header" href="#domain-name">Domain Name</a></h4>
+<img src="images/dom_name.png" alt="Domain Name" width="300" height="150" />
+<ul>
+<li><strong>Select the surface:</strong> A dropdown menu to select the surface you want to define as a domain. Each domain corresponds to a specific part of the model.</li>
+</ul>
+<h4 id="material"><a class="header" href="#material">Material</a></h4>
+<img src="images/material.png" alt="Material" width="300" height="150" />
+<ul>
+<li><strong>Material:</strong> A dropdown menu to select the material for the selected domain. Example options include Aluminum, Steel, Titanium, etc.</li>
+</ul>
+<h4 id="hooke-module"><a class="header" href="#hooke-module">Hooke Module</a></h4>
+<img src="images/hooke.png" alt="Hooke Module" width="300" height="100" />
+<ul>
+<li><strong>Hooke Module [ ]:</strong> The Young's modulus of the material in Pascals (Pa). This is a measure of the stiffness of the material.</li>
+</ul>
+<h4 id="poisson-coefficient"><a class="header" href="#poisson-coefficient">Poisson Coefficient</a></h4>
+<img src="images/pois_coef.png" alt="Poisson Coefficient" width="300" height="100" />
+<ul>
+<li><strong>Poisson Coefficient [ ]:</strong> The Poisson's ratio of the material. This is a measure of the deformation of the material in directions perpendicular to the direction of loading.</li>
+</ul>
+<h4 id="density"><a class="header" href="#density">Density</a></h4>
+<img src="images/density.png" alt="Density" width="300" height="100" />
+<ul>
+<li><strong>Density [ ]:</strong> The density of the material in kilograms per cubic meter (kg/m³).</li>
+</ul>
+<h4 id="structural-source-term"><a class="header" href="#structural-source-term">Structural Source Term</a></h4>
+<img src="images/sst.png" alt="Structural Source Term" width="300" height="100" />
+<ul>
+<li><strong>Structural Source Term [N/m^3]:</strong> Input fields for the structural source term in Newtons per cubic meter (N/m³) in the X, Y, and Z directions. This is used to define any additional forces acting on the domain.</li>
+</ul>
+<h3 id="options"><a class="header" href="#options">Options</a></h3>
+<img src="images/tpms_opt.png" alt="Options" width="300" height="150" />
+<ul>
+<li><strong>Optimize And Generate TPMS:</strong> A checkbox to enable optimization and generation of Triply Periodic Minimal Surface (TPMS) structures. TPMS structures are used for lightweight and high-strength design.</li>
+<li><strong>Generate TPMS:</strong> A checkbox to generate TPMS without optimization.</li>
+</ul>
+<h3 id="save-and-continue"><a class="header" href="#save-and-continue">Save and Continue</a></h3>
+<ul>
+<li><strong>Save and Continue:</strong> Click this button to save the current boundary condition and continue to the next step.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="problem_definition.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="boundary_conditions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="problem_definition.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="boundary_conditions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
